@@ -117,28 +117,31 @@ public class Register extends HttpServlet {
                 "</div>\n" +
                 "</div>";
         
-        String footer = "</div> <footer class=\"footer\" style=\"position: absolute;bottom: 0\">\n" +
-                "<br />\n" +
-                "<div class=\"container\">\n" +
-                "<div class=\"row\">\n" +
-                "<div class=\"col-lg-12\">\n" +
-                "<div class=\"footer_nav_container\">\n" +
-                "<div class=\"cr\">©2018 All Rights Reserverd <i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i> Spectrum</div>\n" +
-                "</div>\n" +
-                "</div>\n" +
-                "</div>\n" +
-                "</div>\n" +
-                "</footer>\n" +
-                "\n" +
-                "\n" +
-                "<script src=\"js/jquery-3.2.1.min.js\"></script>\n" +
-                "<script src=\"styles/bootstrap4/popper.js\"></script>\n" +
-                "<script src=\"styles/bootstrap4/bootstrap.min.js\"></script>\n" +
-                "<script src=\"plugins/Isotope/isotope.pkgd.min.js\"></script>\n" +
-                "<script src=\"plugins/OwlCarousel2-2.2.1/owl.carousel.js\"></script>\n" +
-                "<script src=\"plugins/easing/easing.js\"></script>\n" +
-                "<script src=\"js/custom.js\"></script>\n" +
-                "</body>";
+         String footer = "</div>\n" +
+                    "\n" +
+                    "<footer class=\"footer\">\n" +
+"                <br />\n" +
+"                <div class=\"container\">\n" +
+"                    <div class=\"row\">\n" +
+"                        <div class=\"col-lg-12\">\n" +
+"                            <div class=\"footer_nav_container\">\n" +
+"                                <div class=\"cr\">©2018 All Rights Reserverd <i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i> Spectrum</div>\n" +
+"                            </div>\n" +
+"                        </div>\n" +
+"                    </div>\n" +
+"                </div>\n" +
+"            </footer>\n" +
+"\n" +
+"        </div>\n" +
+"\n" +
+"        <script src=\"js/jquery-3.2.1.min.js\"></script>\n" +
+"        <script src=\"styles/bootstrap4/popper.js\"></script>\n" +
+"        <script src=\"styles/bootstrap4/bootstrap.min.js\"></script>\n" +
+"        <script src=\"plugins/Isotope/isotope.pkgd.min.js\"></script>\n" +
+"        <script src=\"plugins/OwlCarousel2-2.2.1/owl.carousel.js\"></script>\n" +
+"        <script src=\"plugins/easing/easing.js\"></script>\n" +
+"        <script src=\"js/custom.js\"></script>\n" +
+"    </body>";
         
         String contentTop = "<div class=\"newsletter\" style=\"padding-top: 5%\">\n" +
                 "<div class=\"container\">\n";

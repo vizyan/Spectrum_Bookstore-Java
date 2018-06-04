@@ -18,12 +18,12 @@ public class User {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-    public int id;
-    public String name;
-    public String username;
-    public String password;
-    public String address;
-    public String birthday;
+    private int id;
+    private String name;
+    private String username;
+    private String password;
+    private String address;
+    private String birthday;
 
     public int getId() {
         return id;

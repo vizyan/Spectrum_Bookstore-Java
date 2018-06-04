@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2018 at 10:21 PM
+-- Generation Time: Jun 04, 2018 at 06:22 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -21,6 +21,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `assigment_rsbk_2018`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `book`
+--
+
+CREATE TABLE `book` (
+  `id` int(11) NOT NULL,
+  `name` varchar(1024) NOT NULL,
+  `publisher` varchar(1024) NOT NULL,
+  `author` varchar(1024) NOT NULL,
+  `year` varchar(5) NOT NULL,
+  `stock` int(10) NOT NULL,
+  `price` int(255) NOT NULL,
+  `category` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `book`
+--
+
+INSERT INTO `book` (`id`, `name`, `publisher`, `author`, `year`, `stock`, `price`, `category`) VALUES
+(1, 'The Davinci Code', 'PT Suara Mardika', 'Dan Brown', '2012', 1, 55000, 'Novel'),
+(2, 'Harry Potter and the Deathly Hallows', 'Ga tau', 'J. K. Rowling', '2017', 10, 76500, 'Fiksi'),
+(3, 'Detektif Conan: The Legend of the Buried Treasure of Koshu', 'Elex Media Komputindo', 'Gosho Aoyama', '2015', 5, 56000, 'Fiksi');
 
 -- --------------------------------------------------------
 
@@ -49,6 +75,12 @@ INSERT INTO `user` (`id`, `name`, `username`, `password`, `address`, `birthday`)
 --
 
 --
+-- Indexes for table `book`
+--
+ALTER TABLE `book`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -59,6 +91,11 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `book`
+--
+ALTER TABLE `book`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `user`
 --

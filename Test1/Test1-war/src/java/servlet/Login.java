@@ -39,18 +39,18 @@ public class Login extends HttpServlet {
         
         String username, password;
         String header = "<head>\n" +
-                        "<title>Spectrum Bookstore</title>\n" +
-                        "<meta charset=\"utf-8\">\n" +
-                        "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
-                        "<meta name=\"description\" content=\"Colo Shop Template\">\n" +
-                        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
-                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/bootstrap4/bootstrap.min.css\">\n" +
-                        "<link href=\"plugins/font-awesome-4.7.0/css/font-awesome.min.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
-                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/OwlCarousel2-2.2.1/owl.carousel.css\">\n" +
-                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/OwlCarousel2-2.2.1/owl.theme.default.css\">\n" +
-                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/OwlCarousel2-2.2.1/animate.css\">\n" +
-                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/main_styles.css\">\n" +
-                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/responsive.css\">\n" +
+                    "<title>Spectrum Bookstore</title>\n" +
+                    "<meta charset=\"utf-8\">\n" +
+                    "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
+                    "<meta name=\"description\" content=\"Colo Shop Template\">\n" +
+                    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/bootstrap4/bootstrap.min.css\">\n" +
+                    "<link href=\"plugins/font-awesome-4.7.0/css/font-awesome.min.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
+                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/OwlCarousel2-2.2.1/owl.carousel.css\">\n" +
+                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/OwlCarousel2-2.2.1/owl.theme.default.css\">\n" +
+                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/OwlCarousel2-2.2.1/animate.css\">\n" +
+                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/main_styles.css\">\n" +
+                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/responsive.css\">\n" +
                     "</head>";
         
         String navbar = "<body class=\"newsletter\" style=\"width: 100%; height: 100%\">\n" +
@@ -153,28 +153,29 @@ public class Login extends HttpServlet {
         
         String footer = "</div>\n" +
                     "\n" +
-                    "<footer class=\"footer\" style=\"position: absolute;bottom: 0\">\n" +
-                    "<br />\n" +
-                    "<div class=\"container\">\n" +
-                    "<div class=\"row\">\n" +
-                    "<div class=\"col-lg-12\">\n" +
-                    "<div class=\"footer_nav_container\">\n" +
-                    "<div class=\"cr\">©2018 All Rights Reserverd <i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i> Spectrum</div>\n" +
-                    "</div>\n" +
-                    "</div>\n" +
-                    "</div>\n" +
-                    "</div>\n" +
-                    "</footer>\n" +
-                    "\n" +
-                    "\n" +
-                    "<script src=\"js/jquery-3.2.1.min.js\"></script>\n" +
-                    "<script src=\"styles/bootstrap4/popper.js\"></script>\n" +
-                    "<script src=\"styles/bootstrap4/bootstrap.min.js\"></script>\n" +
-                    "<script src=\"plugins/Isotope/isotope.pkgd.min.js\"></script>\n" +
-                    "<script src=\"plugins/OwlCarousel2-2.2.1/owl.carousel.js\"></script>\n" +
-                    "<script src=\"plugins/easing/easing.js\"></script>\n" +
-                    "<script src=\"js/custom.js\"></script>\n" +
-                    "</body>";
+                    "<footer class=\"footer\">\n" +
+"                <br />\n" +
+"                <div class=\"container\">\n" +
+"                    <div class=\"row\">\n" +
+"                        <div class=\"col-lg-12\">\n" +
+"                            <div class=\"footer_nav_container\">\n" +
+"                                <div class=\"cr\">©2018 All Rights Reserverd <i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i> Spectrum</div>\n" +
+"                            </div>\n" +
+"                        </div>\n" +
+"                    </div>\n" +
+"                </div>\n" +
+"            </footer>\n" +
+"\n" +
+"        </div>\n" +
+"\n" +
+"        <script src=\"js/jquery-3.2.1.min.js\"></script>\n" +
+"        <script src=\"styles/bootstrap4/popper.js\"></script>\n" +
+"        <script src=\"styles/bootstrap4/bootstrap.min.js\"></script>\n" +
+"        <script src=\"plugins/Isotope/isotope.pkgd.min.js\"></script>\n" +
+"        <script src=\"plugins/OwlCarousel2-2.2.1/owl.carousel.js\"></script>\n" +
+"        <script src=\"plugins/easing/easing.js\"></script>\n" +
+"        <script src=\"js/custom.js\"></script>\n" +
+"    </body>";
         
         PrintWriter out = response.getWriter();
         
@@ -216,15 +217,7 @@ public class Login extends HttpServlet {
                     }
                     
                 } catch (JSONException ex) {
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>Servlet Login</title>");            
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1> " + ex.getMessage() +"</h1>");
-                    out.println("</body>");
-                    out.println("</html>");
+                    ex.printStackTrace();
                 }
             }
             
