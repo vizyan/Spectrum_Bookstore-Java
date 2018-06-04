@@ -13,37 +13,50 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.User;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
  * @author Vizyan
  */
-@WebServlet(name = "Home", urlPatterns = {"/Home"})
+@WebServlet(name = "Home", urlPatterns = {""})
 public class Home extends HttpServlet {
 
     @EJB
     private User user;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException{
         response.setContentType("text/html;charset=UTF-8");
         
-        
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Home</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Home at " + user.getName() +"</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        PrintWriter out = response.getWriter();
+        JSONObject dataSession = new JSONObject();
+        HttpSession session = request.getSession(false);
+        if(session==null){
+            response.sendRedirect(request.getContextPath() + "/login");
+        } 
+        else {
+            dataSession = (JSONObject) session.getAttribute("login");
+            try {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Servlet Home</title>");            
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Servlet Home at " + dataSession.toString() +"  </h1>");
+                out.println("</body>");
+                out.println("</html>");
+            } catch (Exception ex){
+                ex.printStackTrace();
+            }
         }
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
