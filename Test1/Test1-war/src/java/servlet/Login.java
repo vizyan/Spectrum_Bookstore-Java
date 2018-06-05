@@ -70,8 +70,8 @@ public class Login extends HttpServlet {
                     "</div>\n" +
                     "<nav class=\"navbar\">\n" +
                     "<ul class=\"navbar_menu\">\n" +
-                    "<li><a href=\"#\">Home</a></li>\n" +
-                    "<li><a href=\"#\">About</a></li>\n" +
+                    "<li><a href=\"login\">Home</a></li>\n" +
+                    "<li><a href=\"chart\">Chart</a></li>\n" +
                     "<li class=\"account\">\n" +
                     "<a href=\"#\">\n" +
                     "Account\n" +
@@ -121,8 +121,8 @@ public class Login extends HttpServlet {
                     "<li><a href=\"register\"><i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>Register</a></li>\n" +
                     "</ul>\n" +
                     "</li>\n" +
-                    "<li class=\"menu_item\"><a href=\"#\">Home</a></li>\n" +
-                    "<li class=\"menu_item\"><a href=\"#\">About</a></li>\n" +
+                    "<li class=\"menu_item\"><a href=\"login\">Home</a></li>\n" +
+                    "<li class=\"menu_item\"><a href=\"chart\">Chart</a></li>\n" +
                     "</ul>\n" +
                     "</div>\n" +
                     "</div>";

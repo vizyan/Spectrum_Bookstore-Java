@@ -15,4 +15,5 @@ import org.json.JSONObject;
 @Local
 public interface HomeLocal {
     public JSONObject getAllBook();
+    public JSONObject getBookById(int id);
 }

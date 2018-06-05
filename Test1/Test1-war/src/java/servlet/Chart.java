@@ -5,19 +5,24 @@
  */
 package servlet;
 
-import Bean.Home.HomeLocal;
+import Bean.Chart.ChartLocal;
+import Bean.Chart.ChartStateless;
+import Bean.Chart.ChartStatelessLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,19 +31,23 @@ import org.json.JSONObject;
  *
  * @author Vizyan
  */
-@WebServlet(name = "Home", urlPatterns = {""})
-public class Home extends HttpServlet {
+@WebServlet(name = "Chart", urlPatterns = {"/chart"})
+public class Chart extends HttpServlet {
 
-    @EJB
-    private HomeLocal home;
+    ChartLocal chartTotal = lookupChartLocal();
 
-    @EJB
-    private User user;
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
         String header = "<head>\n" +
                     "<title>Spectrum Bookstore</title>\n" +
                     "<meta charset=\"utf-8\">\n" +
@@ -71,7 +80,7 @@ public class Home extends HttpServlet {
                     "</div>\n" +
                     "<nav class=\"navbar\">\n" +
                     "<ul class=\"navbar_menu\">\n" +
-                    "<li><a href=\"#\">Home</a></li>\n" +
+                    "<li><a href='login'>Home</a></li>\n" +
                     "<li><a href=\"chart\">Chart</a></li>\n" +
                     "<li class=\"account\">\n" +
                     "<a href=\"logout\">\n" +
@@ -116,7 +125,7 @@ public class Home extends HttpServlet {
                     "<li><a href=\"#\"><i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>Register</a></li>\n" +
                     "</ul>\n" +
                     "</li>\n" +
-                    "<li class=\"menu_item\"><a href=\"#\">Home</a></li>\n" +
+                    "<li class=\"menu_item\"><a href=\"login\">Home</a></li>\n" +
                     "<li class=\"menu_item\"><a href=\"chart\">Chart</a></li>\n" +
                     "</ul>\n" +
                     "</div>\n" +
@@ -148,10 +157,7 @@ public class Home extends HttpServlet {
 "                        <div class=\"col text-center\">\n" +
 "                            <div class=\"new_arrivals_sorting\">\n" +
 "                                <ul class=\"arrivals_grid_sorting clearfix button-group filters-button-group\">\n" +
-"                                    <li class=\"grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked\" data-filter=\"*\">All</li>\n" +
-"                                    <li class=\"grid_sorting_button button d-flex flex-column justify-content-center align-items-center\" data-filter=\".non-fiksi\">Non-Fiksi</li>\n" +
-"                                    <li class=\"grid_sorting_button button d-flex flex-column justify-content-center align-items-center\" data-filter=\".fiksi\">Fiksi</li>\n" +
-"                                    <li class=\"grid_sorting_button button d-flex flex-column justify-content-center align-items-center\" data-filter=\".novel\">Novel</li>\n" +
+"                                    <li class=\"grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked\" data-filter=\"*\">Keranjang Belanjaan</li>\n" +
 "                                </ul>\n" +
 "                            </div>\n" +
 "                        </div>\n" +
@@ -233,59 +239,110 @@ public class Home extends HttpServlet {
 "        <script src=\"js/custom.js\"></script>\n" +
 "    </body>";
         
-        PrintWriter out = response.getWriter();
-        JSONObject dataSession = new JSONObject();
-        JSONObject object;
-        JSONArray array;
+        String popup = "" ;
+        
+        double total, nilai1;
+        Date time = new Date();
+        Date now = new Date();
+        int minute;
         
         HttpSession session = request.getSession(false);
         if(session==null){
             response.sendRedirect(request.getContextPath() + "/login");
-        } 
-        else {
-            dataSession = (JSONObject) session.getAttribute("login");
+        } else {
+        
+        try (PrintWriter out = response.getWriter()) {
             
-            try {
-                object = home.getAllBook();
-                String message = object.get("message").toString();
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println(header);
-                out.println(navbar);            
-                out.println(contentTop);
+            HttpSession chart;
+            chart = request.getSession(false);
+            
+            JSONObject objectChart = (JSONObject) chart.getAttribute("chart");
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println(header);
+            out.println(navbar);
+            out.println(contentTop);
+            
+            JSONArray array = new JSONArray();
+            ChartStateless chartStateles = new ChartStateless();;
+            
+            if(objectChart!=null){
+                now = new Date(chart.getLastAccessedTime());
+                minute = (int) objectChart.get("time");
+                int difTime = now.getMinutes() - minute;
                 
-                if(message.equals("success")){
-                    try {
-                    array = object.getJSONArray("data");
-                        for(int i = 0; i <= array.length(); i++){
-                            JSONObject book = array.getJSONObject(i);
-                            out.println("<div class=\"product-item "+ book.get("category").toString().toLowerCase() +"\">\n" +
-"                                    <div class=\"product discount product_filter\">\n" +
-"                                            <center><p class=\"product_name\">"+ book.get("author").toString() +"</p></center>\n" +
-"                                        <div class=\"product_image\">\n" +
-"                                            <center><img src=\"images/book.png\" alt=\"\" style='width:80%'></center>\n" +
-"                                        </div>\n" +
-//"                                        <div class=\"favorite favorite_left\"></div>\n" +
-"                                        <div class=\"product_info\">\n" +
-"                                            <h6 class=\"product_name\"><a href=\"detail?"+ book.get("id").toString() +"\">"+ book.get("name").toString() +"</a></h6>\n" +
-"                                            <div class=\"product_price\"> Rp "+ book.get("price").toString() +"</div>\n" +
-"                                        </div>\n" +
-"                                    </div>\n" +
-"                                </div>");
-                        }
-                    } catch (JSONException ex) {}
+                if(difTime>=2){
+                    chart.removeAttribute("chart");
+                    objectChart = null;
+                    popup = "<div class=\"d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-center\">\n" +
+                                        "<h4 id=\"newsletter_submit\" class=\"btn button\" style=\"background-color: red; color:white\">Maaf keranjang anda sudah melebihi batas waktu (2 menit)</h4>\n" +
+                                        "</div>";
+                } 
+                
+                if(objectChart!=null){
+                    array = objectChart.getJSONArray("books");
+                    for(int i = 0; i<array.length(); i++){
+                        JSONObject chartBooks = new JSONObject();
+                        chartBooks = array.getJSONObject(i);
+                        int value1 = (int) chartBooks.get("much");
+                        int value2 = (int) chartBooks.get("price");
+                        out.println("<div class=\"product-item\" style='padding-left:2px'>\n" +
+    "                                    <div class=\"product discount product_filter\">\n" +
+                                "<div class=\"product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center\" style='color:white;'> x"+ value1 +"</div>" +
+    "                                        <div class=\"product_image\">\n" +
+    "                                            <center><img src=\"images/book.png\" alt=\"\" style='width:80%; padding-top:25px'></center>\n" +
+    "                                            <center><p class=\"product_name\">"+ chartBooks.get("author").toString() +"</p></center>\n" +
+    "                                        </div>\n" +
+    //"                                        <div class=\"favorite favorite_left\"></div>\n" +
+
+    "                                        <div class=\"product_info\">\n" +
+    "                                            <h6 class=\"product_name\"><a href=\"detail?"+ chartBooks.get("id").toString() +"\">"+ chartBooks.get("name").toString() +"</a></h6>\n" +
+    "                                            <div class=\"product_price\"> Rp "+ value2 +"</div>\n" +
+    "                                        </div>\n" +
+    "                                    </div>\n" +
+    "                                </div>");
+
+
+                        nilai1 = chartStateles.mul(value1, value2);
+                        total = chartStateles.add(nilai1);
+                    }
                 }
-                
-                out.println(contentBottom);
-                out.println(benefit);
-                out.println(footer);
-                out.println("</html>");
-            } catch (Exception ex){
-                ex.printStackTrace();
             }
+            /* TODO output your page here. You may use following sample code. */
+               
+            String totalBook = "<div class=\"newsletter\">\n" +
+"                <div class=\"container\">\n" +
+"                    <div class=\"row\">\n" +
+"                        <div class=\"col-lg-6\">\n" +
+"                            <div class=\"newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center\">\n" +
+"                                <p>Total belanja : Rp</p>\n" +
+"                            </div>\n" +
+"                        </div>\n" +
+"                        <div class=\"col-lg-6\">\n" +
+"                            <form action=\"post\" style='padding-top:6%'>\n" +
+"                                <div class=\"newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center\">\n" +
+"                                    <input id=\"newsletter_email\" disabled type=\"email\" placeholder=\"Your email\" required=\"required\" value='"+ chartStateles.getTotal() +"'>\n" +
+"                                    <input id=\"newsletter_submit\" type=\"submit\" class=\"button newsletter_submit_btn trans_300\" name=\"checkout\" value=\"Bayar\">\n" +
+"                                </div>\n" +
+"                            </form>\n" +
+"                        </div>\n" +
+"                    </div>\n" +
+"                </div>\n" +
+"            </div>";
+            
+            out.println(contentBottom);
+            out.println(popup);
+            out.println(totalBook);
+            out.println(benefit);
+            out.println(footer);
+            out.println("</html>");
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
         }
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -324,5 +381,15 @@ public class Home extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private ChartLocal lookupChartLocal() {
+        try {
+            Context c = new InitialContext();
+            return (ChartLocal) c.lookup("java:global/Test1/Test1-ejb/Chart!Bean.Chart.ChartLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 
 }
