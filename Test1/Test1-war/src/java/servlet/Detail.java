@@ -188,7 +188,7 @@ public class Detail extends HttpServlet {
                     "<nav class=\"navbar\">\n" +
                     "<ul class=\"navbar_menu\">\n" +
                     "<li><a href=\"login\">Home</a></li>\n" +
-                    "<li><a href=\"chart\">Chart</a></li>\n" +
+                    "<li><a href=\"chart\">Cart</a></li>\n" +
                     "<li class=\"account\">\n" +
                     "<a href=\"logout\">\n" +
                     "Logout\n" +
@@ -227,7 +227,7 @@ public class Detail extends HttpServlet {
                     "Logout\n" +
                     "</li>\n" +
                     "<li class=\"menu_item\"><a href=\"login\">Home</a></li>\n" +
-                    "<li class=\"menu_item\"><a href=\"chart\">Chart</a></li>\n" +
+                    "<li class=\"menu_item\"><a href=\"chart\">Cart</a></li>\n" +
                     "</ul>\n" +
                     "</div>\n" +
                     "</div>";
@@ -310,6 +310,7 @@ public class Detail extends HttpServlet {
                         chartBook.put("name", data.get("name").toString());
                         chartBook.put("author", data.get("author").toString());
                         chartBook.put("much", much);
+                        chartBook.put("stock", data.get("stock"));
                         chartBook.put("price", data.get("price"));
                         
                         chartBooks.put(chartBook);
@@ -321,7 +322,7 @@ public class Detail extends HttpServlet {
                         createSession.setAttribute("chart", objectBook);
                                                 
                         popup = "<div class=\"free_delivery d-flex flex-row align-items-center justify-content-center\" style='background-color:deepskyblue'>\n" +
-                                "<center><p></p><p style='color:white'>Berhasil menambah chart "+ minute +"</p></center>" +
+                                "<center><p></p><p style='color:white'>Berhasil menambah chart </p></center>" +
                                 "</div>\n";
                     }
                 }
@@ -336,8 +337,6 @@ public class Detail extends HttpServlet {
             }
             
             out.println(benefit);
-            out.println(time.getMinutes());
-            out.println(now.getMinutes());
             out.println(footer);
             out.println("</html>");
         } catch (JSONException ex) {

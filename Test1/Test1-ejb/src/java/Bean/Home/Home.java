@@ -92,4 +92,26 @@ public class Home implements HomeLocal {
         
         return data;
     }
+    
+    @Override
+    public String updateStok(int id, int stock){
+        String hus = "";
+        Connection con;
+        PreparedStatement preparedStatement;
+        
+        try {
+            con = dbConnection.createConnection();
+            String query = "UPDATE book SET stock = ? WHERE id = ?";
+            preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1, stock);
+            preparedStatement.setInt(2, id);
+      
+            int i = preparedStatement.executeUpdate();
+            hus = "success" ;
+            
+        } catch (SQLException ex){
+            hus = ex.getMessage().toString();
+        } 
+        return hus;
+    }
 }

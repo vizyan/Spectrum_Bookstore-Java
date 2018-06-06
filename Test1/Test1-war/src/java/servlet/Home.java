@@ -72,7 +72,7 @@ public class Home extends HttpServlet {
                     "<nav class=\"navbar\">\n" +
                     "<ul class=\"navbar_menu\">\n" +
                     "<li><a href=\"#\">Home</a></li>\n" +
-                    "<li><a href=\"chart\">Chart</a></li>\n" +
+                    "<li><a href=\"chart\">Cart</a></li>\n" +
                     "<li class=\"account\">\n" +
                     "<a href=\"logout\">\n" +
                     "Logout\n" + //INI DIGANTI USERNAME
@@ -117,7 +117,7 @@ public class Home extends HttpServlet {
                     "</ul>\n" +
                     "</li>\n" +
                     "<li class=\"menu_item\"><a href=\"#\">Home</a></li>\n" +
-                    "<li class=\"menu_item\"><a href=\"chart\">Chart</a></li>\n" +
+                    "<li class=\"menu_item\"><a href=\"chart\">Cart</a></li>\n" +
                     "</ul>\n" +
                     "</div>\n" +
                     "</div>";

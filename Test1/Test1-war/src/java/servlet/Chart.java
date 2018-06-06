@@ -8,6 +8,7 @@ package servlet;
 import Bean.Chart.ChartLocal;
 import Bean.Chart.ChartStateless;
 import Bean.Chart.ChartStatelessLocal;
+import Bean.Home.HomeLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -33,6 +34,9 @@ import org.json.JSONObject;
  */
 @WebServlet(name = "Chart", urlPatterns = {"/chart"})
 public class Chart extends HttpServlet {
+
+    @EJB
+    private HomeLocal home;
 
     ChartLocal chartTotal = lookupChartLocal();
 
@@ -81,7 +85,7 @@ public class Chart extends HttpServlet {
                     "<nav class=\"navbar\">\n" +
                     "<ul class=\"navbar_menu\">\n" +
                     "<li><a href='login'>Home</a></li>\n" +
-                    "<li><a href=\"chart\">Chart</a></li>\n" +
+                    "<li><a href=\"chart\">Cart</a></li>\n" +
                     "<li class=\"account\">\n" +
                     "<a href=\"logout\">\n" +
                     "Logout\n" + //INI DIGANTI USERNAME
@@ -126,7 +130,7 @@ public class Chart extends HttpServlet {
                     "</ul>\n" +
                     "</li>\n" +
                     "<li class=\"menu_item\"><a href=\"login\">Home</a></li>\n" +
-                    "<li class=\"menu_item\"><a href=\"chart\">Chart</a></li>\n" +
+                    "<li class=\"menu_item\"><a href=\"chart\">Cart</a></li>\n" +
                     "</ul>\n" +
                     "</div>\n" +
                     "</div>";
@@ -245,6 +249,7 @@ public class Chart extends HttpServlet {
         Date time = new Date();
         Date now = new Date();
         int minute;
+        String hmm = "";
         
         HttpSession session = request.getSession(false);
         if(session==null){
@@ -266,6 +271,7 @@ public class Chart extends HttpServlet {
             
             JSONArray array = new JSONArray();
             ChartStateless chartStateles = new ChartStateless();;
+            JSONObject a2 = new JSONObject();
             
             if(objectChart!=null){
                 now = new Date(chart.getLastAccessedTime());
@@ -281,11 +287,14 @@ public class Chart extends HttpServlet {
                 } 
                 
                 if(objectChart!=null){
+                    JSONObject a1 = new JSONObject();
+                    JSONArray ar1 = new JSONArray();
                     array = objectChart.getJSONArray("books");
                     for(int i = 0; i<array.length(); i++){
                         JSONObject chartBooks = new JSONObject();
                         chartBooks = array.getJSONObject(i);
                         int value1 = (int) chartBooks.get("much");
+                        int value3 = (int) chartBooks.get("stock");
                         int value2 = (int) chartBooks.get("price");
                         out.println("<div class=\"product-item\" style='padding-left:2px'>\n" +
     "                                    <div class=\"product discount product_filter\">\n" +
@@ -302,15 +311,38 @@ public class Chart extends HttpServlet {
     "                                        </div>\n" +
     "                                    </div>\n" +
     "                                </div>");
-
+                        
+                        int howmuch = value3 - value1;
 
                         nilai1 = chartStateles.mul(value1, value2);
                         total = chartStateles.add(nilai1);
                     }
+                    ar1.put(a2);
+                    
+                    if(request.getParameter("checkout")!=null){
+                        objectChart = (JSONObject) chart.getAttribute("chart");
+                        array = objectChart.getJSONArray("books");
+                        String dor, dor1;
+                        int dor2;
+                        JSONObject hai = new JSONObject();
+                        for(int i = 0; i <array.length(); i++){
+                            hai = array.getJSONObject(i);
+                            dor = hai.get("stock").toString();
+                            dor1 = hai.get("id").toString();
+                            dor2 = (int) hai.get("much");
+                            int u = Integer.parseInt(dor);
+                            int v = Integer.parseInt(dor1);
+                            int howmuch = u - dor2;
+                            hmm = home.updateStok(v, howmuch);
+                            
+                        }
+                        HttpSession session1 = request.getSession(false);
+                        session1.removeAttribute("chart");
+                        objectChart = null;
+                    }
                 }
             }
-            /* TODO output your page here. You may use following sample code. */
-               
+            
             String totalBook = "<div class=\"newsletter\">\n" +
 "                <div class=\"container\">\n" +
 "                    <div class=\"row\">\n" +
@@ -320,8 +352,9 @@ public class Chart extends HttpServlet {
 "                            </div>\n" +
 "                        </div>\n" +
 "                        <div class=\"col-lg-6\">\n" +
-"                            <form action=\"post\" style='padding-top:6%'>\n" +
+"                            <form action=\"chart\"  method='post' style='padding-top:6%'>\n" +
 "                                <div class=\"newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center\">\n" +
+//"                                    <input id=\"newsletter_email\" disabled type=\"hidden\" placeholder=\"Your email\" required=\"required\" name='data' value='"+ a2 +"'>\n" +
 "                                    <input id=\"newsletter_email\" disabled type=\"email\" placeholder=\"Your email\" required=\"required\" value='"+ chartStateles.getTotal() +"'>\n" +
 "                                    <input id=\"newsletter_submit\" type=\"submit\" class=\"button newsletter_submit_btn trans_300\" name=\"checkout\" value=\"Bayar\">\n" +
 "                                </div>\n" +

@@ -61,7 +61,7 @@ public class Register extends HttpServlet {
                 "<nav class=\"navbar\">\n" +
                 "<ul class=\"navbar_menu\">\n" +
                 "<li><a href='login'>Home</a></li>\n" +
-                "<li><a href=\"chart\">Chart</a></li>\n" +
+                "<li><a href=\"chart\">Cart</a></li>\n" +
                 "<li class=\"account\">\n" +
                 "<a href=\"#\">\n" +
                 "Account\n" +
@@ -112,7 +112,7 @@ public class Register extends HttpServlet {
                 "</ul>\n" +
                 "</li>\n" +
                 "<li class=\"menu_item\"><a href=\"login\">Home</a></li>\n" +
-                "<li class=\"menu_item\"><a href=\"chart\">Chart</a></li>\n" +
+                "<li class=\"menu_item\"><a href=\"chart\">Cart</a></li>\n" +
                 "</ul>\n" +
                 "</div>\n" +
                 "</div>";

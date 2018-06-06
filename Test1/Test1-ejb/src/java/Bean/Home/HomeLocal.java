@@ -16,4 +16,5 @@ import org.json.JSONObject;
 public interface HomeLocal {
     public JSONObject getAllBook();
     public JSONObject getBookById(int id);
+    public String updateStok(int id, int stock);
 }
